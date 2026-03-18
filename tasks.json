@@ -2,6 +2,11 @@
     {
         "id": 1,
         "url": "https://boot.dev",
-        "status": "pending"
+        "status": "complete"
+    },
+    {
+        "id": 2,
+        "url": "https://boot.dev",
+        "status": "complete"
     }
 ]
