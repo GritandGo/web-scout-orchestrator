@@ -1,12 +1,14 @@
 [
     {
         "id": 1,
-        "url": "https://boot.dev",
-        "status": "complete"
+        "url": "https://google.com",
+        "status": "complete",
+        "result": "Server type: gws"
     },
     {
         "id": 2,
-        "url": "https://boot.dev",
-        "status": "complete"
+        "url": "https://google.com",
+        "status": "complete",
+        "result": "Server type: gws"
     }
 ]
