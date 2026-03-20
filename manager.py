@@ -3,9 +3,14 @@ import json
 with open("tasks.json", "r") as file:
     tasks = json.load(file)
 
+
+user_url = input("Enter a URL for the Scout to investigate: ").strip()
+if not (user_url.startswith("https://") or user_url.startswith("http://")):
+    raise ValueError("URL must start with https:// or http://")
+
 new_task = {
     "id": len(tasks) + 1,
-    "url": "https://google.com",
+    "url": user_url,
     "status": "pending",
     "result": None
 }
