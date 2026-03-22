@@ -209,3 +209,6 @@ __marimo__/
 
 #json
 tasks.json
+
+#experiment file
+experiment.py
