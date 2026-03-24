@@ -31,7 +31,7 @@ while True:
                 f"--- CTRL + C to quit ----\n\n"
                 f"    🔁 refreshing 🔁\n"
             )
-            #print(f"Current tasks - Pending: {pending} | Complete: {complete} | Failed: {failed}\n 'CTRL + C to quit program")
+            
             
         finally:
             fcntl.flock(file, fcntl.LOCK_UN)
