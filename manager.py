@@ -2,21 +2,24 @@ import json
 import sys
 import fcntl
 
+#user input and validation
+def user_input():
+    while True:
+        user_url = input("Enter a URL for the Scout to investigate, or enter 'exit' to quit program: ").strip()
+        url_lower = user_url.lower()
 
-while True:
-    user_url = input("Enter a URL for the Scout to investigate, or enter 'exit' to quit program: ").strip()
-    url_lower = user_url.lower()
-
-    if not (url_lower.startswith(("https://", "http://")) or url_lower == "exit"):
-        print("URL must start with https://, http://, or 'exit' (case sensitive)")
-        continue
-    if url_lower == "exit":
-        sys.exit(0)
-
-    #open file and lock it
+        if not (url_lower.startswith(("https://", "http://")) or url_lower == "exit"):
+            print("URL must start with https://, http://, or type 'exit'")
+            continue
+        if url_lower == "exit":
+            sys.exit(0)
+        return user_url
+    
+#create new task/file locking
+def add_task(url):
     with open("tasks.json", "r+") as file:
         fcntl.flock(file, fcntl.LOCK_EX)
-
+        
         try:
             tasks = json.load(file)
 
@@ -24,7 +27,7 @@ while True:
 
             new_task = {
                 "id": new_id,
-                "url": user_url,
+                "url": url,
                 "status": "pending",
                 "result": None
             }
@@ -36,3 +39,15 @@ while True:
         finally:
             fcntl.flock(file, fcntl.LOCK_UN)
 
+
+def main():
+    while True:
+        url = user_input()
+        try:
+            add_task(url)
+            print(f"Task for {url} saved successfully.")
+        except Exception as e:
+            print(f"Failed to save task. {e}")
+
+if __name__ == "__main__":
+    main()
