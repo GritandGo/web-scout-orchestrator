@@ -7,6 +7,7 @@ import fcntl
 
 
 while True:
+    was_updated = False
     with open("tasks.json", "r+") as file:
         fcntl.flock(file, fcntl.LOCK_EX)
 
@@ -26,23 +27,27 @@ while True:
                             task["result"] = f"Server type: {server_type}"
 
                         task["status"] = "complete"
+                        was_updated = True
 
                     except HTTPError as e:
                         task["status"] = "failed"
                         task["result"] = f"HTTP Error: {e.code}"
+                        was_updated = True
                         
                     except URLError as e:
                         task["status"] = "failed"
                         task["result"] = f"Url Error: {e.reason}"
+                        was_updated = True
                         
                     except Exception as e:
                         task["status"] = "failed"
                         task["result"] = f"Unexpected Error: {e}" 
+                        was_updated = True
                                
-
-            file.seek(0) #move pointer to start of file
-            json.dump(tasks, file, indent=4)
-            file.truncate()
+            if was_updated == True:
+                file.seek(0) #move pointer to start of file
+                json.dump(tasks, file, indent=4)
+                file.truncate()
         finally:
             fcntl.flock(file, fcntl.LOCK_UN)
 
